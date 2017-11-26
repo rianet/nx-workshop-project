@@ -1,0 +1,10 @@
+<header>
+  <label>
+    Filter by name:
+    <input type="text" name="filter">
+  </label>
+</header>
+<a *ngFor="let company of companies$ | async" routerLink="company/{{company.id}}">
+  <h2>{{company.name}}</h2>
+  <div>Users: {{company.users.length}}</div>
+</a>
