@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Company } from '../company.interface';
-import { CompanyService } from '../company.service';
+import { Company, CompanyService } from '@tuskdesk-suite/backend';
 
 @Component({
   selector: 'app-companies',
