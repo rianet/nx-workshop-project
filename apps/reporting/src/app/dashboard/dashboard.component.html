@@ -1,0 +1,6 @@
+<h2>Dashboard</h2>
+<section *ngIf="model$ | async; let model">
+  <div>Total Tickets: {{model.totalTickets}}</div>
+  <div>Open Tickets: {{model.totalOpenTickets}}</div>
+  <div>Total Companies: {{model.totalCompanies}}</div>
+</section>

@@ -79,6 +79,12 @@
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"
       }
+    },
+    {
+      "name": "backend",
+      "root": "libs/backend/src",
+      "test": "../../../test.js",
+      "appRoot": ""
     }
   ],
   "e2e": {
