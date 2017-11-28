@@ -6,12 +6,15 @@ import { Route, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { BackendModule } from '@tuskdesk-suite/backend';
 
-const routes: Route[] = [
-  {path: '', component: DashboardComponent}
-];
+const routes: Route[] = [{ path: '', component: DashboardComponent }];
 
 @NgModule({
-  imports: [BrowserModule, BackendModule, NxModule.forRoot(), RouterModule.forRoot(routes, { initialNavigation: 'enabled' })],
+  imports: [
+    BrowserModule,
+    BackendModule,
+    NxModule.forRoot(),
+    RouterModule.forRoot(routes, { initialNavigation: 'enabled' })
+  ],
   declarations: [AppComponent, DashboardComponent],
   bootstrap: [AppComponent]
 })

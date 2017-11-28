@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, mergeMap } from 'rxjs/operators';
 import { Company, CompanyService } from '@tuskdesk-suite/backend';
 
 @Component({
@@ -12,9 +12,16 @@ import { Company, CompanyService } from '@tuskdesk-suite/backend';
 export class CompanyDetailsComponent implements OnInit {
   company$: Observable<Company>;
 
-  constructor(private companyService: CompanyService, private route: ActivatedRoute) {}
+  constructor(private companyService: CompanyService,
+              private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
-    this.company$ = this.route.params.pipe(map(p => p.id), switchMap(id => this.companyService.company(id)));
+    this.company$ = this.route.params.pipe(
+      map(p => p.id),
+      switchMap(id => this.companyService.company(id).pipe(
+        mergeMap(company => this.companyService.usersByCompany(id).pipe(map(users => ({...company, users}))))
+      ))
+    );
   }
 }
