@@ -3,11 +3,7 @@ import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NxModule } from '@nrwl/nx';
 import { RouterModule } from '@angular/router';
-import {
-  BackendModule,
-  BackendUserIdService,
-  LoggedInUserInterceptor
-} from '@tuskdesk-suite/backend';
+import { BackendModule, BackendUserIdService, LoggedInUserInterceptor } from '@tuskdesk-suite/backend';
 import { StoreModule } from '@ngrx/store';
 import { appReducer } from './+state/app.reducer';
 import { appInitialState } from './+state/app.init';
