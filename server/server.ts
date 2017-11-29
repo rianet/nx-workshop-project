@@ -1,16 +1,128 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
+
 const args = process.argv.slice(2);
 const throttle = args.indexOf('--throttle') >= 0;
 const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-let lastTicketId = 6;
+
+const users: User[] = [
+  {id: 1, username: 'cmoss', fullName: 'Carter Moss', isAgent: false},
+  {id: 2, username: 'francis', fullName: 'Frank Smith', isAgent: false},
+  {id: 3, username: 'yardling', fullName: 'Kim Rush', isAgent: false},
+  {id: 4, username: 'mr90s', fullName: 'Peter Jones', isAgent: false},
+  {id: 5, username: 'msantana', fullName: 'Margo Santana', isAgent: false},
+  {id: 6, username: 'optin88', fullName: 'Mark Press', isAgent: false},
+  {id: 7, username: 'tinycap', fullName: 'Terry Cruz', isAgent: false},
+  {id: 8, username: 'jeffnrwl', fullName: 'Jeff Nrwl', isAgent: true},
+  {id: 9, username: 'justinnrwl', fullName: 'Justin Nrwl', isAgent: true}
+];
+
+
+const tickets: Ticket[] = [
+  {
+    id: 1,
+    message: 'PC keeps rebooting after startup',
+    status: 'open',
+    companyId: 1,
+    submittedByUserId: 1,
+    assignedToUserId: null
+  },
+  {
+    id: 2,
+    message: 'My toaster keeps ping flooding my network',
+    status: 'completed',
+    companyId: 1,
+    submittedByUserId: 1,
+    assignedToUserId: 9
+  },
+  {
+    id: 3,
+    message: 'No issues, just wanted to say thank you through here!',
+    status: 'open',
+    companyId: 2,
+    submittedByUserId: 4,
+    assignedToUserId: null
+  },
+  {
+    id: 4,
+    message: 'How do I get docker running as host',
+    status: 'open',
+    companyId: 3,
+    submittedByUserId: 5,
+    assignedToUserId: null
+  },
+  {
+    id: 5,
+    message: 'Not able to get software installed as root user',
+    status: 'completed',
+    companyId: 4,
+    submittedByUserId: 6,
+    assignedToUserId: 8
+  },
+  {
+    id: 6,
+    message: 'I cannot get my 28.8 modem to connect',
+    status: 'completed',
+    companyId: 4,
+    submittedByUserId: 7,
+    assignedToUserId: 8
+  }
+];
+
+const comments: Comment[] = [
+  {id: 1, message: 'Booted into safe mode but not sure what to do from there', ticketId: 2, userId: 2},
+  {id: 2, message: 'Log in as an admin and manage users, enable root', ticketId: 5, userId: 8},
+  {id: 3, message: 'Choose rollback - last good known config', ticketId: 2, userId: 9}
+];
+
+const companies: Company[] = [
+  {
+    id: 1,
+    name: 'Lake Farms',
+    userIds: [1, 2, 3]
+  },
+  {
+    id: 2,
+    name: 'UWear',
+    userIds: [4]
+  },
+  {
+    id: 3,
+    name: 'Time Travel Inc',
+    userIds: [5]
+  },
+  {
+    id: 4,
+    name: 'Range Solutions',
+    userIds: [6]
+  },
+  {
+    id: 5,
+    name: 'Metric Acoustics',
+    userIds: [7]
+  }
+];
+
+let lastTicketId = tickets.length;
+let lastCommentId = comments.length;
 
 app.get('/api/tickets', (req, res) => {
+  const currentUser = getCurrentUser(req);
   setTimeout(() => {
-    res.send(tickets);
+    if (currentUser) {
+      res.send(currentUser.isAgent ? tickets : tickets.filter(ticket => ticket.submittedByUserId === currentUser.id));
+    } else {
+      res.status(404).send({error: `Cannot find tickets`});
+    }
+  }, randomDelay(throttle));
+});
+
+app.get('/api/comments', (req, res) => {
+  setTimeout(() => {
+    res.send(comments);
   }, randomDelay(throttle));
 });
 
@@ -48,13 +160,27 @@ app.get('/api/companies/:id/users', (req, res) => {
   }, randomDelay(throttle));
 });
 
-app.get('/api/ticket/:id', (req, res) => {
+app.get('/api/tickets/:id', (req, res) => {
+  const currentUser = getCurrentUser(req);
   setTimeout(() => {
-    const matching = tickets.filter(t => t.id === +req.params.id)[0];
+    const matching = currentUser.isAgent
+      ? tickets.filter(t => t.id === +req.params.id)[0]
+      : tickets.filter(t => t.id === +req.params.id && t.submittedByUserId === currentUser.id)[0];
     if (matching) {
       res.send(matching);
     } else {
       res.status(404).send({error: `Cannot find ticket ${+req.params.id}`});
+    }
+  }, randomDelay(throttle));
+});
+
+app.get('/api/tickets/:id/comments', (req, res) => {
+  setTimeout(() => {
+    const matching = comments.filter(t => t.ticketId === +req.params.id)[0];
+    if (matching) {
+      res.send(matching);
+    } else {
+      res.status(404).send({error: `Cannot find comments for ticket id ${+req.params.id}`});
     }
   }, randomDelay(throttle));
 });
@@ -71,22 +197,42 @@ app.get('/api/users/:id', (req, res) => {
 });
 
 app.post('/api/tickets', (req, res) => {
+  const currentUser = getCurrentUser(req);
   setTimeout(() => {
     const t = req.body;
-    if (!t.summary) {
-      res.status(500).send({error: `Summary is a required field`});
+    if (!t.message) {
+      res.status(500).send({error: `Message is a required field`});
     } else {
       const newTicket: Ticket = {
         id: ++lastTicketId,
-        title: t.title,
-        summary: t.summary,
+        message: t.message,
         companyId: t.companyId,
         status: 'open',
-        submittedByUserId: t.submittedByUserId,
+        submittedByUserId: currentUser.id,
         assignedToUserId: null
       };
       tickets.push(newTicket);
       res.send(newTicket);
+    }
+  }, randomDelay(throttle));
+});
+
+
+app.post('/api/comments', (req, res) => {
+  const currentUser = getCurrentUser(req);
+  setTimeout(() => {
+    const t = req.body;
+    if (!t.message) {
+      res.status(500).send({error: `Message is a required field`});
+    } else {
+      const newComment: Comment = {
+        id: ++lastCommentId,
+        message: t.message,
+        ticketId: t.ticketId,
+        userId: currentUser.id
+      };
+      comments.push(newComment);
+      res.send(newComment);
     }
   }, randomDelay(throttle));
 });
@@ -130,15 +276,26 @@ function randomDelay(throttleEnabled: boolean = false) {
   return throttleEnabled ? Math.random() * 4000 : 1;
 }
 
+function getCurrentUser(req) {
+  const userId = +req.header('userid');
+  return users.find(user => user.id === userId);
+}
+
 
 interface Ticket {
   id: number;
-  title: string;
-  summary: string;
+  message: string;
   status: string;
   companyId: number;
   submittedByUserId: number;
   assignedToUserId: number;
+}
+
+interface Comment {
+  id: number;
+  message: string;
+  ticketId: number;
+  userId: number;
 }
 
 interface Company {
@@ -154,51 +311,3 @@ interface User {
   isAgent: boolean;
 }
 
-
-const users: User[] = [
-  {id: 1, username: 'cmoss', fullName: 'Carter Moss', isAgent: false},
-  {id: 2, username: 'francis', fullName: 'Frank Smith', isAgent: false},
-  {id: 3, username: 'yardling', fullName: 'Kim Rush', isAgent: false},
-  {id: 4, username: 'mr90s', fullName: 'Peter Jones', isAgent: false},
-  {id: 5, username: 'msantana', fullName: 'Margo Santana', isAgent: false},
-  {id: 6, username: 'optin88', fullName: 'Mark Press', isAgent: false},
-  {id: 7, username: 'tinycap', fullName: 'Terry Cruz', isAgent: false}
-];
-
-
-const tickets: Ticket[] = [
-  {id: 1, title: '', summary: '', status: 'open', companyId: 1, submittedByUserId: 1, assignedToUserId: 1},
-  {id: 2, title: '', summary: '', status: 'completed', companyId: 2, submittedByUserId: 1, assignedToUserId: 1},
-  {id: 3, title: '', summary: '', status: 'open', companyId: 2, submittedByUserId: 1, assignedToUserId: 1},
-  {id: 4, title: '', summary: '', status: 'open', companyId: 3, submittedByUserId: 1, assignedToUserId: 1},
-  {id: 5, title: '', summary: '', status: 'completed', companyId: 4, submittedByUserId: 1, assignedToUserId: 1},
-  {id: 6, title: '', summary: '', status: 'completed', companyId: 4, submittedByUserId: 1, assignedToUserId: 1}
-];
-
-const companies: Company[] = [
-  {
-    id: 1,
-    name: 'Lake Farms',
-    userIds: [1, 2, 3]
-  },
-  {
-    id: 2,
-    name: 'UWear',
-    userIds: [4]
-  },
-  {
-    id: 3,
-    name: 'Time Travel Inc',
-    userIds: [5]
-  },
-  {
-    id: 4,
-    name: 'Range Solutions',
-    userIds: [6]
-  },
-  {
-    id: 5,
-    name: 'Metric Acoustics',
-    userIds: [7]
-  }
-];

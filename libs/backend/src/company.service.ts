@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import { Company, User } from './company.interface';
 import { HttpClient } from '@angular/common/http';
+import { Company, User } from '@tuskdesk-suite/data-models';
 
 @Injectable()
 export class CompanyService {
