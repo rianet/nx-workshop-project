@@ -81,8 +81,38 @@
       }
     },
     {
+      "name": "authentication-state",
+      "root": "libs/authentication-state/src",
+      "test": "../../../test.js",
+      "appRoot": ""
+    },
+    {
       "name": "backend",
       "root": "libs/backend/src",
+      "test": "../../../test.js",
+      "appRoot": ""
+    },
+    {
+      "name": "data-models",
+      "root": "libs/data-models/src",
+      "test": "../../../test.js",
+      "appRoot": ""
+    },
+    {
+      "name": "ticket-list-view",
+      "root": "libs/ticket-list-view/src",
+      "test": "../../../test.js",
+      "appRoot": ""
+    },
+    {
+      "name": "ticket-list-view",
+      "root": "libs/ticket-list-view/src",
+      "test": "../../../test.js",
+      "appRoot": ""
+    },
+    {
+      "name": "tickets-state",
+      "root": "libs/tickets-state/src",
       "test": "../../../test.js",
       "appRoot": ""
     }

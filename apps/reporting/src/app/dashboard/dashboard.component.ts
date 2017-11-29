@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CompanyService } from '@tuskdesk-suite/backend';
 import { TicketService } from '@tuskdesk-suite/backend';
 import { map, mergeMap } from 'rxjs/operators';
@@ -6,7 +6,8 @@ import { map, mergeMap } from 'rxjs/operators';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
   model$;

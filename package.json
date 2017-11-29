@@ -11,7 +11,10 @@
     "e2e": "ng e2e",
     "format": "prettier --single-quote --print-width 120 --write \"{apps,libs}/**/*.ts\"",
     "server": "tsc -p ./server && node dist/server/server.js",
-    "server:throttled": "tsc -p ./server && node dist/server/server.js --throttle"
+    "server:throttled": "tsc -p ./server && node dist/server/server.js --throttle",
+    "account-admin": "ng serve --proxy-config=proxy.config.json -a=account-admin -p=4201",
+    "reporting": "ng serve --proxy-config=proxy.config.json -a=reporting -p=4202",
+    "customer-portal": "ng serve --proxy-config=proxy.config.json -a=customer-portal -p=4203"
   },
   "private": true,
   "dependencies": {
