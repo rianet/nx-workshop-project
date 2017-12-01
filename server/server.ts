@@ -106,8 +106,17 @@ const companies: Company[] = [
   }
 ];
 
+const eventLogs: EventLog[] = [
+  {id:1, message: 'viewed open tickets', userId: 1, resourceType: 'ticket', resourceId: null},
+  {id:2, message: 'created ticket', userId: 1, resourceType: 'ticket', resourceId: 1},
+  {id:3, message: 'viewed companies', userId: 9, resourceType: 'company', resourceId: null},
+  {id:4, message: 'viewed company details', userId: 9, resourceType: 'company', resourceId: 2},
+  {id:5, message: 'viewed ticket details', userId: 1, resourceType: 'ticket', resourceId: 1}
+];
+
 let lastTicketId = tickets.length;
 let lastCommentId = comments.length;
+let lastEventLogId = eventLogs.length;
 
 app.get('/api/tickets', (req, res) => {
   const currentUser = getCurrentUser(req);
@@ -125,8 +134,9 @@ app.get('/api/tickets', (req, res) => {
         ticketsToReturn = ticketsToReturn.filter(ticket => ticket.status === status);
       }
       res.send(ticketsToReturn);
+      addEventLog(currentUser.id, 'viewed tickets', 'tickets');
     } else {
-      res.status(404).send({error: `Cannot find tickets`});
+      res.status(401).send({error: `not authorized`});
     }
   }, randomDelay(throttle));
 });
@@ -143,19 +153,38 @@ app.get('/api/users', (req, res) => {
   }, randomDelay(throttle));
 });
 
-app.get('/api/companies', (req, res) => {
+app.get('/api/eventlogs', (req, res) => {
   setTimeout(() => {
-    res.send(companies);
+    res.send(eventLogs);
+  }, randomDelay(throttle));
+});
+
+app.get('/api/companies', (req, res) => {
+  const currentUser = getCurrentUser(req);
+  setTimeout(() => {
+    if (currentUser && currentUser.isAgent) {
+      res.send(companies);
+      addEventLog(currentUser.id, 'viewed companies', 'companies');
+    } else {
+      res.status(401).send({error: `not authorized`});
+    }
   }, randomDelay(throttle));
 });
 
 app.get('/api/companies/:id', (req, res) => {
+  const currentUser = getCurrentUser(req);
   setTimeout(() => {
-    const matching = companies.filter(t => t.id === +req.params.id)[0];
-    if (matching) {
-      res.send(matching);
+    if (currentUser && currentUser.isAgent) {
+      const id = +req.params.id;
+      const matching = companies.filter(t => t.id === id)[0];
+      if (matching) {
+        res.send(matching);
+        addEventLog(currentUser.id, 'viewed company details', 'companies', id);
+      } else {
+        res.status(404).send({error: `Cannot find company ${+req.params.id}`});
+      }
     } else {
-      res.status(404).send({error: `Cannot find company ${+req.params.id}`});
+      res.status(401).send({error: `not authorized`});
     }
   }, randomDelay(throttle));
 });
@@ -174,13 +203,19 @@ app.get('/api/companies/:id/users', (req, res) => {
 app.get('/api/tickets/:id', (req, res) => {
   const currentUser = getCurrentUser(req);
   setTimeout(() => {
-    const matching = currentUser.isAgent
-      ? tickets.filter(t => t.id === +req.params.id)[0]
-      : tickets.filter(t => t.id === +req.params.id && t.submittedByUserId === currentUser.id)[0];
-    if (matching) {
-      res.send(matching);
+    if (currentUser) {
+      const id = +req.params.id;
+      const matching = currentUser.isAgent
+        ? tickets.filter(t => t.id === id)[0]
+        : tickets.filter(t => t.id === id && t.submittedByUserId === currentUser.id)[0];
+      if (matching) {
+        res.send(matching);
+        addEventLog(currentUser.id, 'viewed ticket details', 'tickets', id);
+      } else {
+        res.status(404).send({error: `Cannot find ticket ${+req.params.id}`});
+      }
     } else {
-      res.status(404).send({error: `Cannot find ticket ${+req.params.id}`});
+      res.status(401).send({error: `not authorized`});
     }
   }, randomDelay(throttle));
 });
@@ -292,6 +327,16 @@ function getCurrentUser(req) {
   return users.find(user => user.id === userId);
 }
 
+function addEventLog(userId, message, resourceType, resourceId = null) {
+  eventLogs.push({
+    id: ++lastEventLogId,
+    message,
+    resourceType,
+    userId,
+    resourceId
+  });
+}
+
 
 interface Ticket {
   id: number;
@@ -322,3 +367,10 @@ interface User {
   isAgent: boolean;
 }
 
+interface EventLog {
+  id: number;
+  message: string;
+  userId: number;
+  resourceType: string;
+  resourceId: number;
+}
