@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
 import { DataPersistence } from '@nrwl/nx';
-import 'rxjs/add/operator/switchMap';
 import { TicketsStateModelState } from './tickets-state-model.interfaces';
 import { LoadTicket, LoadTickets } from './tickets-state-model.actions';
 import { TicketService } from '@tuskdesk-suite/backend';
