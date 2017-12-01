@@ -9,17 +9,17 @@ import { BackendModule, BackendUserIdService, LoggedInUserInterceptor } from '@t
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoggedInUserIdService } from './logged-in-user-id.service';
 
-const routes: Route[] = [
-  { path: '', component: CompaniesComponent },
-  { path: 'company/:id', component: CompanyDetailsComponent }
-];
-
 @NgModule({
   imports: [
     BrowserModule,
-    BackendModule,
+    BackendModule.forRoot(),
     NxModule.forRoot(),
-    RouterModule.forRoot(routes, { initialNavigation: 'enabled' })
+    RouterModule.forRoot([
+        {path: '', component: CompaniesComponent},
+        {path: 'company/:id', component: CompanyDetailsComponent}
+      ],
+      {initialNavigation: 'enabled'}
+    )
   ],
   declarations: [AppComponent, CompaniesComponent, CompanyDetailsComponent],
   bootstrap: [AppComponent],
@@ -35,4 +35,5 @@ const routes: Route[] = [
     }
   ]
 })
-export class AppModule {}
+export class AppModule {
+}

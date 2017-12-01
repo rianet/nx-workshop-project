@@ -1,21 +1,28 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { Ticket, Comment } from '@tuskdesk-suite/data-models';
+import { ApiConfig } from './api-config';
 
 @Injectable()
 export class TicketService {
-  constructor(private http: HttpClient) {}
+  private _rootUrl = '';
+
+  constructor(@Optional() private apiConfig: ApiConfig, private http: HttpClient) {
+    if (apiConfig) {
+      this._rootUrl = apiConfig.rootUrl;
+    }
+  }
 
   tickets(): Observable<Ticket[]> {
-    return this.http.get<Ticket[]>('/api/tickets');
+    return this.http.get<Ticket[]>(`${this._rootUrl}/api/tickets`);
   }
 
   ticketById(id: number): Observable<Ticket> {
-    return this.http.get<Ticket>(`/api/tickets/${id}`);
+    return this.http.get<Ticket>(`${this._rootUrl}/api/tickets/${id}`);
   }
 
   comments(id: number): Observable<Comment[]> {
-    return this.http.get<Comment[]>(`/api/tickets/${id}/comments`);
+    return this.http.get<Comment[]>(`${this._rootUrl}/api/tickets/${id}/comments`);
   }
 }
