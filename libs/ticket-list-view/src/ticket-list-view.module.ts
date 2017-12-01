@@ -6,10 +6,13 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { RouterEffects } from './+state/router.effects';
 import { TicketDetailsComponent } from './ticket-details/ticket-details.component';
+import { SearchTicketsComponent } from './search-tickets/search-tickets.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     RouterModule.forChild([
       {
         path: '',
@@ -19,11 +22,15 @@ import { TicketDetailsComponent } from './ticket-details/ticket-details.componen
       {
         path: 'ticket/:id',
         component: TicketDetailsComponent
+      },
+      {
+        path: 'search',
+        component: SearchTicketsComponent
       }
     ]),
     EffectsModule.forRoot([RouterEffects]),
     StoreRouterConnectingModule
   ],
-  declarations: [TicketListComponent, TicketDetailsComponent]
+  declarations: [TicketListComponent, TicketDetailsComponent, SearchTicketsComponent]
 })
 export class TicketListViewModule {}

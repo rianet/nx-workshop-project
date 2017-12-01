@@ -111,9 +111,20 @@ let lastCommentId = comments.length;
 
 app.get('/api/tickets', (req, res) => {
   const currentUser = getCurrentUser(req);
+  const status = req.query['status'] !== 'undefined' ? req.query['status'] : null;
+  const searchTerm = req.query['searchTerm'] !== 'undefined' ? req.query['searchTerm'] : null;
   setTimeout(() => {
     if (currentUser) {
-      res.send(currentUser.isAgent ? tickets : tickets.filter(ticket => ticket.submittedByUserId === currentUser.id));
+      let ticketsToReturn = currentUser.isAgent
+        ? tickets
+        : tickets.filter(ticket => ticket.submittedByUserId === currentUser.id);
+      if (searchTerm) {
+        ticketsToReturn = ticketsToReturn.filter(ticket => ticket.message.indexOf(searchTerm) >= 0);
+      }
+      if (status) {
+        ticketsToReturn = ticketsToReturn.filter(ticket => ticket.status === status);
+      }
+      res.send(ticketsToReturn);
     } else {
       res.status(404).send({error: `Cannot find tickets`});
     }
