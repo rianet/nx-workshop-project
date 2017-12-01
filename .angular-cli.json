@@ -1,8 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "tuskdesk-suite",
-    "npmScope": "tuskdesk-suite"
+    "name": "tuskdesk-suite"
   },
   "apps": [
     {
@@ -82,39 +81,39 @@
     },
     {
       "name": "authentication-state",
+      "appRoot": "",
       "root": "libs/authentication-state/src",
-      "test": "../../../test.js",
-      "appRoot": ""
+      "test": "../../../test.js"
     },
     {
       "name": "backend",
+      "appRoot": "",
       "root": "libs/backend/src",
-      "test": "../../../test.js",
-      "appRoot": ""
+      "test": "../../../test.js"
     },
     {
       "name": "data-models",
+      "appRoot": "",
       "root": "libs/data-models/src",
-      "test": "../../../test.js",
-      "appRoot": ""
+      "test": "../../../test.js"
     },
     {
       "name": "ticket-list-view",
+      "appRoot": "",
       "root": "libs/ticket-list-view/src",
-      "test": "../../../test.js",
-      "appRoot": ""
+      "test": "../../../test.js"
     },
     {
       "name": "ticket-list-view",
+      "appRoot": "",
       "root": "libs/ticket-list-view/src",
-      "test": "../../../test.js",
-      "appRoot": ""
+      "test": "../../../test.js"
     },
     {
       "name": "tickets-state",
+      "appRoot": "",
       "root": "libs/tickets-state/src",
-      "test": "../../../test.js",
-      "appRoot": ""
+      "test": "../../../test.js"
     }
   ],
   "e2e": {
@@ -139,15 +138,16 @@
     }
   },
   "defaults": {
+    "styleExt": "scss",
+    "component": {
+    },
     "schematics": {
       "collection": "@nrwl/schematics",
-      "postGenerate": "npm run format",
       "newProject": [
         "app",
         "lib"
-      ]
-    },
-    "styleExt": "scss",
-    "component": {}
+      ],
+      "postGenerate": "npm run format"
+    }
   }
 }

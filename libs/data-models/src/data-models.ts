@@ -16,7 +16,7 @@ export interface Comment {
 export interface Company {
   id: string;
   name: string;
-  users: User[];
+  userIds: number[];
 }
 
 export interface User {
