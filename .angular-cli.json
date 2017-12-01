@@ -9,6 +9,11 @@
       "root": "apps/account-admin/src",
       "outDir": "dist/apps/account-admin",
       "assets": [
+        {
+          "input": "../../../libs/shared-assets/",
+          "output": "assets/",
+          "glob": "**/*"
+        },
         "assets",
         "favicon.ico"
       ],
