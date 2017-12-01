@@ -11,7 +11,8 @@ export class RouterEffects {
   loadTickets = this.d.navigation(TicketListComponent, {
     run: (a: ActivatedRouteSnapshot) => {
       return {
-        type: 'LOAD_TICKETS'
+        type: 'LOAD_TICKETS',
+        payload: {status: 'open'}
       };
     },
     onError: (a: ActivatedRouteSnapshot, e: any) => {

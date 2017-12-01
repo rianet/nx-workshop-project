@@ -14,11 +14,9 @@ import { LoggedInUserIdService } from './logged-in-user-id.service';
     BrowserModule,
     BackendModule.forRoot(),
     NxModule.forRoot(),
-    RouterModule.forRoot([
-        {path: '', component: CompaniesComponent},
-        {path: 'company/:id', component: CompanyDetailsComponent}
-      ],
-      {initialNavigation: 'enabled'}
+    RouterModule.forRoot(
+      [{ path: '', component: CompaniesComponent }, { path: 'company/:id', component: CompanyDetailsComponent }],
+      { initialNavigation: 'enabled' }
     )
   ],
   declarations: [AppComponent, CompaniesComponent, CompanyDetailsComponent],
@@ -35,5 +33,4 @@ import { LoggedInUserIdService } from './logged-in-user-id.service';
     }
   ]
 })
-export class AppModule {
-}
+export class AppModule {}
