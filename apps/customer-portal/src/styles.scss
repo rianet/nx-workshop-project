@@ -1,1 +1,120 @@
-/* You can add global styles to this file, and also import other style files */
+@import "./libs/styles/main.scss";
+
+.header-bar {
+  background: #cdecf7;
+  box-shadow: 0 4px 6px #a1b5c9;
+  a {
+    color: #1258b9;
+  }
+}
+
+.ticket-header {
+  background: #fad391;
+  font-weight: bold;
+  text-align: right;
+  padding: 10px;
+}
+.ticket-message {
+  background: #eeeeee;
+  margin: 0;
+  padding: 20px 10px;
+  font-size: 1.2em;
+}
+.ticket-meta {
+  background: #ddd;
+  display: flex;
+  padding: 6px;
+  font-size: .8em;
+  > span {
+    flex-grow: 1;
+    &:last-child {
+      text-align: right;
+    }
+  }
+}
+
+.ticket-comments-link {
+  margin-right: 4px;
+  &:before {
+    content: 'Show '
+  }
+  &.open:before {
+    content: 'Hide '
+  }
+}
+
+.ticket-comments {
+  > div:first-child {
+    margin-top: 10px;
+    text-align: right;
+  }
+}
+.ticket-comment {
+  box-shadow: none;
+  border: 1px solid #d5d5d5;
+  span:last-child {
+    font-size: .8em;
+    font-style: italic;
+    min-width: 180px;
+    text-align: right;
+  }
+}
+.ticket-comment-form {
+  label {
+    display: flex;
+    margin-bottom: 6px;
+    textarea {
+      flex-grow: 1;
+      padding: 10px;
+      font-size: 1em;
+      border:1px solid #d5d5d5;
+    }
+  }
+  button {
+    padding: 0 10px;
+    height: 34px;
+    font-size: 1em;
+    background: #4ec3e3;
+    color: white;
+    border: 0;
+    &:disabled {
+      background: #999999;
+      color: #ccc;
+    }
+  }
+}
+
+.ticket-search-form {
+  text-align: center;
+  padding: 10px 4px;
+  label {
+    font-size: 1.4em;
+    font-weight: bold;
+  }
+  input {
+    width: 300px;
+    font-size: 1em;
+  }
+  button {
+    top: -3px;
+    position: relative;
+    padding: 0 10px;
+    height: 34px;
+    font-size: 1em;
+    background: #4ec3e3;
+    color: white;
+    border: 0;
+    &:disabled {
+      background: #999999;
+      color: #ccc;
+    }
+  }
+}
+.ticket-search-results {
+  div {
+    span:last-child {
+      color: #333;
+      font-style: italic;
+    }
+  }
+}

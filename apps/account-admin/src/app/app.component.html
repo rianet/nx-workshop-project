@@ -1,6 +1,10 @@
-<header>
+<header class="header-bar">
   <img src="assets/logo.png" alt="TuskDesk Logo">
   <h1>TuskDesk Account Admin</h1>
-  <a routerLink="/">Accounts</a>
+  <a routerLink="/"
+     routerLinkActive="current"
+     [routerLinkActiveOptions]="{exact: true}">Accounts</a>
 </header>
-<router-outlet></router-outlet>
+<section class="content">
+  <router-outlet></router-outlet>
+</section>

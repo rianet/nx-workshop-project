@@ -1,6 +1,9 @@
 <header>
+  <h2>Companies</h2>
 </header>
 <a *ngFor="let company of companies$ | async" routerLink="company/{{company.id}}">
-  <h2>{{company.name}}</h2>
-  <div>Users: {{company.userIds.length}}</div>
+  <div class="card">
+    <h3>{{company.name}}</h3>
+    <div>Users: {{company.userIds.length}}</div>
+  </div>
 </a>

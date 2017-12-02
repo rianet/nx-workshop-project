@@ -1,7 +1,13 @@
-<header>
+<header class="header-bar">
   <img src="assets/logo.png" alt="TuskDesk Logo">
   <h1>TuskDesk</h1>
-  <a routerLink="/">Tickets</a>
-  <a routerLink="/search">Search</a>
+  <a routerLink="/"
+     routerLinkActive="current"
+     [routerLinkActiveOptions]="{exact: true}">Tickets</a>
+  <a routerLink="/search"
+     routerLinkActive="current"
+     [routerLinkActiveOptions]="{exact: true}">Search</a>
 </header>
-<router-outlet></router-outlet>
+<section class="content">
+  <router-outlet></router-outlet>
+</section>

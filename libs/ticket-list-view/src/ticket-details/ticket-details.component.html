@@ -1,6 +1,8 @@
 <section *ngIf="ticket$ | async; let ticket">
   <header class="ticket-header">
-    ID: {{ticket.id}}
+    <span>
+      Ticket Id: {{ticket.id}}
+    </span>
   </header>
   <p class="ticket-message">{{ticket.message}}</p>
   <div class="ticket-meta">
@@ -24,11 +26,17 @@
   </div>
   <!--<footer class="ticket-comments">-->
     <!--<div>-->
-      <!--<a>comments</a>-->
+      <!--<a class="ticket-comments-link open">comments</a>-->
     <!--</div>-->
-    <!--<div class="ticket-comment">-->
-      <!--<p></p>-->
-      <!--<div>by </div>-->
+    <!--<div class="ticket-comment card">-->
+      <!--<span>{{comment.message}}</span>-->
+      <!--<span>by {{comment.userFullName}}</span>-->
+    <!--</div>-->
+    <!--<div class="ticket-comment-form">-->
+      <!--<label>-->
+        <!--<textarea name="new-ticket-comment" cols="30" rows="10"></textarea>-->
+      <!--</label>-->
+      <!--<button>Add Comment</button>-->
     <!--</div>-->
   <!--</footer>-->
 </section>
