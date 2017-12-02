@@ -39,6 +39,11 @@
       "root": "apps/customer-portal/src",
       "outDir": "dist/apps/customer-portal",
       "assets": [
+        {
+          "input": "../../../libs/shared-assets/",
+          "output": "assets/",
+          "glob": "**/*"
+        },
         "assets",
         "favicon.ico"
       ],
@@ -64,6 +69,11 @@
       "root": "apps/reporting/src",
       "outDir": "dist/apps/reporting",
       "assets": [
+        {
+          "input": "../../../libs/shared-assets/",
+          "output": "assets/",
+          "glob": "**/*"
+        },
         "assets",
         "favicon.ico"
       ],

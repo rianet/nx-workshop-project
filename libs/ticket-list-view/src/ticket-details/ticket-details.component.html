@@ -1,3 +1,34 @@
-<ng-container *ngIf="ticket$ | async; let ticket">
-  {{ticket.message}}
-</ng-container>
+<section *ngIf="ticket$ | async; let ticket">
+  <header class="ticket-header">
+    ID: {{ticket.id}}
+  </header>
+  <p class="ticket-message">{{ticket.message}}</p>
+  <div class="ticket-meta">
+    <span>
+      Status:
+      <span class="ticket-status-{{ticket.status}}">
+        {{ticket.status}}
+      </span>
+    </span>
+    <ng-container *ngIf="ticket.assignedToUserId; else notAssigned">
+      <span>
+        Assigned To:
+        <span class="ticket-assigned-to">
+          {{ticket.assignedToUserId}}
+        </span>
+      </span>
+    </ng-container>
+    <ng-template #notAssigned>
+      <span class="ticket-not-assigned">Not Assigned</span>
+    </ng-template>
+  </div>
+  <!--<footer class="ticket-comments">-->
+    <!--<div>-->
+      <!--<a>comments</a>-->
+    <!--</div>-->
+    <!--<div class="ticket-comment">-->
+      <!--<p></p>-->
+      <!--<div>by </div>-->
+    <!--</div>-->
+  <!--</footer>-->
+</section>
