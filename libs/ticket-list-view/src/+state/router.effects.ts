@@ -20,18 +20,18 @@ export class RouterEffects {
     }
   });
 
-  @Effect()
-  loadTicket = this.d.navigation(TicketDetailsComponent, {
-    run: (a: ActivatedRouteSnapshot) => {
-      return {
-        type: 'LOAD_TICKET',
-        payload: +a.params['id']
-      };
-    },
-    onError: (a: ActivatedRouteSnapshot, e: any) => {
-      return null;
-    }
-  });
+  // @Effect()
+  // loadTicket = this.d.navigation(TicketDetailsComponent, {
+  //   run: (a: ActivatedRouteSnapshot) => {
+  //     return {
+  //       type: 'LOAD_TICKET',
+  //       payload: +a.params['id']
+  //     };
+  //   },
+  //   onError: (a: ActivatedRouteSnapshot, e: any) => {
+  //     return null;
+  //   }
+  // });
 
   constructor(private actions: Actions, private d: DataPersistence<any>) {}
 }
