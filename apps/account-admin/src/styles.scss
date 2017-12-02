@@ -1,1 +1,39 @@
-/* You can add global styles to this file, and also import other style files */
+@import "./libs/styles/main.scss";
+
+.header-bar {
+  background: #8bd1ff;
+  box-shadow: 0 4px 6px #677b90;
+  h1 {
+    color: #333333;
+  }
+  a {
+    color: white;
+  }
+}
+.card {
+  color: #333333;
+}
+h2 {
+  color: darkgrey;
+}
+.company-details {
+  h1 {
+    font-size: 2em;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    thead {
+      background: #d4d4d4;
+    }
+    tbody {
+      background: #eeeeee;
+    }
+    th {
+      text-align: left;
+    }
+    th, td {
+      padding: 4px;
+    }
+  }
+}
