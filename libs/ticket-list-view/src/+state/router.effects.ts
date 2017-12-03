@@ -12,7 +12,7 @@ export class RouterEffects {
     run: (a: ActivatedRouteSnapshot) => {
       return {
         type: 'LOAD_TICKETS',
-        payload: {status: 'open'}
+        payload: { status: 'open' }
       };
     },
     onError: (a: ActivatedRouteSnapshot, e: any) => {
