@@ -114,7 +114,8 @@
       {
         "npmScope": "tuskdesk-suite",
         "lazyLoad": [
-          "ticket-list-view"
+          "ticket-list-view",
+          "logs-view"
         ]
       }
     ]

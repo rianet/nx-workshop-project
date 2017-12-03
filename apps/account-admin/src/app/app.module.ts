@@ -25,7 +25,7 @@ import { AppPreloadStrategy } from './app-preload-strategy';
         {
           path: 'forms',
           loadChildren: './company-forms/company-forms.module#CompanyFormsModule',
-          data: {preloadOn: true}
+          data: { preloadOn: true }
         }
       ],
       {

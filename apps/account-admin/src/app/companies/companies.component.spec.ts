@@ -50,10 +50,7 @@ describe('CompaniesComponent', () => {
       TestBed.configureTestingModule({
         imports: [RouterTestingModule, HttpClientTestingModule],
         declarations: [CompaniesComponent, WelcomeUserComponent],
-        providers: [
-          CompanyService,
-          UserFullNameService
-        ]
+        providers: [CompanyService, UserFullNameService]
       }).compileComponents();
       const fixture = TestBed.createComponent(CompaniesComponent);
       const component = fixture.componentInstance;
