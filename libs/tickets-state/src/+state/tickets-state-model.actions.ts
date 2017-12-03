@@ -22,18 +22,18 @@ export interface TicketLoaded {
 
 export interface UpdateTicketMessage {
   type: 'UPDATE_TICKET_MESSAGE';
-  payload: { id: number, message: string, originalMessage: string };
+  payload: { id: number; message: string; originalMessage: string };
 }
 
 export interface UndoUpdateTicketMessage {
   type: 'UNDO_UPDATE_TICKET_MESSAGE';
-  payload: { id: number, message: string };
+  payload: { id: number; message: string };
 }
 
 export type TicketsStateModelAction =
-  LoadTickets |
-  TicketsLoaded |
-  LoadTicket |
-  TicketLoaded |
-  UpdateTicketMessage |
-  UndoUpdateTicketMessage;
+  | LoadTickets
+  | TicketsLoaded
+  | LoadTicket
+  | TicketLoaded
+  | UpdateTicketMessage
+  | UndoUpdateTicketMessage;

@@ -29,12 +29,9 @@ export class TicketDetailsComponent implements OnInit {
     );
   }
 
-  switchToEdit() {
-  }
+  switchToEdit() {}
 
-  cancelEdit() {
-  }
+  cancelEdit() {}
 
-  saveEdit() {
-  }
+  saveEdit() {}
 }
