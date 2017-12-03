@@ -16,9 +16,12 @@
 }
 .ticket-message {
   background: #eeeeee;
-  margin: 0;
   padding: 20px 10px;
-  font-size: 1.2em;
+  p {
+    font-size: 1.2em;
+    margin: 0;
+    padding-bottom: 10px;
+  }
 }
 .ticket-meta {
   background: #ddd;
@@ -30,16 +33,6 @@
     &:last-child {
       text-align: right;
     }
-  }
-}
-
-.ticket-comments-link {
-  margin-right: 4px;
-  &:before {
-    content: 'Show '
-  }
-  &.open:before {
-    content: 'Hide '
   }
 }
 
@@ -59,7 +52,7 @@
     text-align: right;
   }
 }
-.ticket-comment-form {
+.ticket-message-form, .ticket-comment-form {
   label {
     display: flex;
     margin-bottom: 6px;

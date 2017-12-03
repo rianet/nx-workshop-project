@@ -4,7 +4,23 @@
       Ticket Id: {{ticket.id}}
     </span>
   </header>
-  <p class="ticket-message">{{ticket.message}}</p>
+  <div class="ticket-message">
+    <ng-container *ngIf="true">
+      <p>{{ticket.message}}</p>
+      <a (click)="switchToEdit()">Edit</a>
+    </ng-container>
+    <ng-template #editTicketMessage>
+      <div class="ticket-message-form">
+        <label>
+          <textarea name="ticketMessage" cols="30" rows="4"
+            [formControl]="ticketMessage"
+            [value]="ticket.message"></textarea>
+        </label>
+        <button (click)="cancelEdit()">Cancel</button>
+        <button (click)="saveEdit()">Save</button>
+      </div>
+    </ng-template>
+  </div>
   <div class="ticket-meta">
     <span>
       Status:
@@ -25,16 +41,13 @@
     </ng-template>
   </div>
   <!--<footer class="ticket-comments">-->
-    <!--<div>-->
-      <!--<a class="ticket-comments-link open">comments</a>-->
-    <!--</div>-->
     <!--<div class="ticket-comment card">-->
       <!--<span>{{comment.message}}</span>-->
       <!--<span>by {{comment.userFullName}}</span>-->
     <!--</div>-->
     <!--<div class="ticket-comment-form">-->
       <!--<label>-->
-        <!--<textarea name="new-ticket-comment" cols="30" rows="10"></textarea>-->
+        <!--<textarea name="newTicketComment" cols="30" rows="10"></textarea>-->
       <!--</label>-->
       <!--<button>Add Comment</button>-->
     <!--</div>-->

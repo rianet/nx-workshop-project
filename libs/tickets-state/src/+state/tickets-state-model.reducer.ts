@@ -16,6 +16,17 @@ export function ticketsStateModelReducer(state: TicketsStateModel, action: Ticke
         tickets
       };
     }
+    case 'UPDATE_TICKET_MESSAGE':
+    case 'UNDO_UPDATE_TICKET_MESSAGE':{
+      const ticket = state.tickets.find(t => t.id === action.payload.id);
+      const ticketIndex = state.tickets.indexOf(ticket);
+      const tickets = [...state.tickets];
+      tickets[ticketIndex] = {...ticket, message: action.payload.message};
+      return {
+        ...state,
+        tickets
+      };
+    }
     default: {
       return state;
     }

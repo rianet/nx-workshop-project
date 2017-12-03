@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import { Ticket } from '@tuskdesk-suite/data-models';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-ticket-details',
@@ -14,6 +15,7 @@ import { Ticket } from '@tuskdesk-suite/data-models';
 })
 export class TicketDetailsComponent implements OnInit {
   ticket$: Observable<Ticket>;
+  ticketMessage = new FormControl();
 
   constructor(private store: Store<TicketsStateModelState>, private route: ActivatedRoute) {}
 
@@ -25,5 +27,14 @@ export class TicketDetailsComponent implements OnInit {
           .pipe(map(tickets => tickets.find(ticket => ticket.id === +params['id'])))
       )
     );
+  }
+
+  switchToEdit() {
+  }
+
+  cancelEdit() {
+  }
+
+  saveEdit() {
   }
 }
