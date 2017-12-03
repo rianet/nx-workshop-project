@@ -1,9 +1,12 @@
 <header class="header-bar">
-  <img src="assets/logo.png" alt="TuskDesk Logo">
-  <h1>TuskDesk Account Admin</h1>
+  <img src="assets/logo.png"
+       alt="TuskDesk Logo"
+       i18n-alt="app logo|Alt text for the logo">
+  <h1 i18n="app name|Name of the app for the header">TuskDesk Account Admin</h1>
   <a routerLink="/"
      routerLinkActive="current"
-     [routerLinkActiveOptions]="{exact: true}">Accounts</a>
+     [routerLinkActiveOptions]="{exact: true}"
+     i18n="account link|Account link text for header">Accounts</a>
 </header>
 <section class="content">
   <router-outlet></router-outlet>

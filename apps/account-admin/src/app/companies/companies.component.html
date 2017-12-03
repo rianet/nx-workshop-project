@@ -1,6 +1,8 @@
 <header>
   <h2>Companies</h2>
+  <app-welcome-user></app-welcome-user>
 </header>
+<a routerLink="/forms/add">New Account</a>
 <a *ngFor="let company of companies$ | async" routerLink="company/{{company.id}}">
   <div class="card">
     <h3>{{company.name}}</h3>
