@@ -17,7 +17,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.model$ = this.companyService.companies().pipe(
       mergeMap(companies =>
-        this.ticketService.tickets().pipe(
+        this.ticketService.getTickets().pipe(
           map(tickets => {
             return {
               totalTickets: tickets.length,

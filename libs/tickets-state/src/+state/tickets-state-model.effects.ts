@@ -11,7 +11,7 @@ export class TicketsStateModelEffects {
   @Effect()
   loadTickets = this.d.fetch('LOAD_TICKETS', {
     run: (a: LoadTickets, state: TicketsStateModelState) => {
-      return this.ticketService.tickets(a.payload.status).pipe(
+      return this.ticketService.getTickets(a.payload.status).pipe(
         map(tickets => {
           return {
             type: 'TICKETS_LOADED',

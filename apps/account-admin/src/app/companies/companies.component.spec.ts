@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { By } from '@angular/platform-browser';
 import { WelcomeUserComponent } from '../welcome-user/welcome-user.component';
 import { UserFullNameService } from '../user-full-name.service';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('CompaniesComponent', () => {
   describe('[isolation specs]', () => {
@@ -47,21 +48,20 @@ describe('CompaniesComponent', () => {
   describe('[integration specs]', () => {
     it('should render company cards when companies exist', () => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
+        imports: [RouterTestingModule, HttpClientTestingModule],
         declarations: [CompaniesComponent, WelcomeUserComponent],
         providers: [
-          {
-            provide: CompanyService,
-            useValue: {
-              companies: () => Observable.of([{ id: 1, name: 'a company', userIds: [] }])
-            }
-          },
+          CompanyService,
           UserFullNameService
         ]
       }).compileComponents();
       const fixture = TestBed.createComponent(CompaniesComponent);
       const component = fixture.componentInstance;
       component.ngOnInit();
+      fixture.detectChanges();
+      const httpMock = TestBed.get(HttpTestingController);
+      const companiesRequest = httpMock.expectOne('/api/companies');
+      companiesRequest.flush([{ id: 1, name: 'a company', userIds: [] }]);
       fixture.detectChanges();
       const elements = fixture.debugElement.queryAll(By.css('.card'));
       expect(elements.length).toBe(1);

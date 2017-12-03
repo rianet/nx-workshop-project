@@ -14,7 +14,7 @@ export class TicketService {
     }
   }
 
-  tickets(status?: string): Observable<Ticket[]> {
+  getTickets(status?: string): Observable<Ticket[]> {
     return this.http.get<Ticket[]>(`${this._rootUrl}/api/tickets`, { params: { status } });
   }
 
