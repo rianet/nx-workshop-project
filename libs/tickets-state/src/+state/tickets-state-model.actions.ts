@@ -20,4 +20,20 @@ export interface TicketLoaded {
   payload: Ticket;
 }
 
-export type TicketsStateModelAction = LoadTickets | TicketsLoaded | LoadTicket | TicketLoaded;
+export interface UpdateTicketMessage {
+  type: 'UPDATE_TICKET_MESSAGE';
+  payload: { id: number, message: string, originalMessage: string };
+}
+
+export interface UndoUpdateTicketMessage {
+  type: 'UNDO_UPDATE_TICKET_MESSAGE';
+  payload: { id: number, message: string };
+}
+
+export type TicketsStateModelAction =
+  LoadTickets |
+  TicketsLoaded |
+  LoadTicket |
+  TicketLoaded |
+  UpdateTicketMessage |
+  UndoUpdateTicketMessage;

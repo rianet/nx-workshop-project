@@ -75,6 +75,15 @@ const tickets: Ticket[] = [
     submittedByUserId: 7,
     assignedToUserId: 8,
     assignedToUserFullName: 'Jeff Nrwl'
+  },
+  {
+    id: 7,
+    message: 'Cannot connect to WiFi at our office from my second laptop',
+    status: 'open',
+    companyId: 1,
+    submittedByUserId: 1,
+    assignedToUserId: 8,
+    assignedToUserFullName: 'Jeff Nrwl'
   }
 ];
 
@@ -82,9 +91,9 @@ const comments: Comment[] = [
   {
     id: 1,
     message: 'Booted into safe mode but not sure what to do from there',
-    ticketId: 2,
-    userId: 2,
-    userFullName: 'Frank Smith'
+    ticketId: 1,
+    userId: 1,
+    userFullName: 'Carter Moss'
   },
   {
     id: 2, message: 'Log in as an admin and manage users, enable root', ticketId: 5,
@@ -242,7 +251,7 @@ app.get('/api/tickets/:id', (req, res) => {
 
 app.get('/api/tickets/:id/comments', (req, res) => {
   setTimeout(() => {
-    const matching = comments.filter(t => t.ticketId === +req.params.id)[0];
+    const matching = comments.filter(t => t.ticketId === +req.params.id);
     if (matching) {
       res.send(matching);
     } else {
@@ -262,24 +271,20 @@ app.get('/api/users/:id', (req, res) => {
   }, randomDelay(throttle));
 });
 
-app.post('/api/tickets', (req, res) => {
+app.put('/api/tickets', (req, res) => {
   const currentUser = getCurrentUser(req);
   setTimeout(() => {
-    const t = req.body;
-    if (!t.message) {
-      res.status(500).send({error: `Message is a required field`});
+    if (currentUser) {
+      const t = req.body;
+      if (!t.message) {
+        res.status(500).send({error: `Message is a required field`});
+      } else {
+        const existingTicket = tickets.find(ticket => ticket.id === t.id);
+        existingTicket.message = t.message;
+        res.send(existingTicket);
+      }
     } else {
-      const newTicket: Ticket = {
-        id: ++lastTicketId,
-        message: t.message,
-        companyId: t.companyId,
-        status: 'open',
-        submittedByUserId: currentUser.id,
-        assignedToUserId: null,
-        assignedToUserFullName: null
-      };
-      tickets.push(newTicket);
-      res.send(newTicket);
+      res.status(401).send({error: `not authorized`});
     }
   }, randomDelay(throttle));
 });
@@ -288,19 +293,23 @@ app.post('/api/tickets', (req, res) => {
 app.post('/api/comments', (req, res) => {
   const currentUser = getCurrentUser(req);
   setTimeout(() => {
-    const t = req.body;
-    if (!t.message) {
-      res.status(500).send({error: `Message is a required field`});
+    if (currentUser) {
+      const t = req.body;
+      if (!t.message) {
+        res.status(500).send({error: `Message is a required field`});
+      } else {
+        const newComment: Comment = {
+          id: ++lastCommentId,
+          message: t.message,
+          ticketId: t.ticketId,
+          userId: currentUser.id,
+          userFullName: currentUser.fullName
+        };
+        comments.push(newComment);
+        res.send(newComment);
+      }
     } else {
-      const newComment: Comment = {
-        id: ++lastCommentId,
-        message: t.message,
-        ticketId: t.ticketId,
-        userId: currentUser.id,
-        userFullName: currentUser.fullName
-      };
-      comments.push(newComment);
-      res.send(newComment);
+      res.status(401).send({error: `not authorized`});
     }
   }, randomDelay(throttle));
 });
