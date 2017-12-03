@@ -2,7 +2,7 @@ import { Ticket } from '@tuskdesk-suite/data-models';
 
 export interface LoadTickets {
   type: 'LOAD_TICKETS';
-  payload: {status: string};
+  payload: { status: string };
 }
 
 export interface TicketsLoaded {

@@ -12,13 +12,13 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class SearchTicketsComponent implements OnInit, OnDestroy {
   searchText = new FormControl();
-  @ViewChild('searchButton', {read: ElementRef}) searchButton;
+  @ViewChild('searchButton', { read: ElementRef })
+  searchButton;
   searchButtonDisabled = true;
   searchResults: SearchResult[];
   clickSubscription: Subscription;
 
-  constructor(private ticketService: TicketService) {
-  }
+  constructor(private ticketService: TicketService) {}
 
   ngOnInit() {
     this._wireUpSearchButtonEnable();
@@ -29,14 +29,10 @@ export class SearchTicketsComponent implements OnInit, OnDestroy {
     this.clickSubscription.unsubscribe();
   }
 
-  private _wireUpSearchButtonEnable() {
-
-  }
+  private _wireUpSearchButtonEnable() {}
 
   private _wireUpSearchButton() {
-    this.clickSubscription = Observable.fromEvent(this.searchButton.nativeElement, 'click')
-      .subscribe(e => {
-      });
+    this.clickSubscription = Observable.fromEvent(this.searchButton.nativeElement, 'click').subscribe(e => {});
   }
 }
 
