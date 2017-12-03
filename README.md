@@ -2,7 +2,18 @@
 
 This is the demo project for a workshop on using [Nrwl Nx](https://nrwl.io/nx). It is a suite of apps for a help desk type of solution. There is an application for managing company accounts, one for reporting, one for users to submit and view their tickets, and one for agents to work open tickets.
 
+## Requirements
+Install the Angular CLI globally
+```console
+npm install -g @angular/cli
+```
+or
+```console
+yarn global add @angular/cli
+```
+
 ## Initial setup
+cd into the local repo directory and run:
 ```console
 npm install
 ```
