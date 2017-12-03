@@ -3,7 +3,9 @@ export interface Ticket {
   message: string;
   status: string;
   companyId: number;
-  userId: number;
+  submittedByUserId: number;
+  assignedToUserId: number;
+  assignedToUserFullName: string;
 }
 
 export interface Comment {
@@ -11,6 +13,7 @@ export interface Comment {
   message: string;
   ticketId: number;
   userId: number;
+  userFullName: string;
 }
 
 export interface Company {

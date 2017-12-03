@@ -28,7 +28,8 @@ const tickets: Ticket[] = [
     status: 'open',
     companyId: 1,
     submittedByUserId: 1,
-    assignedToUserId: null
+    assignedToUserId: null,
+    assignedToUserFullName: null
   },
   {
     id: 2,
@@ -36,7 +37,8 @@ const tickets: Ticket[] = [
     status: 'completed',
     companyId: 1,
     submittedByUserId: 1,
-    assignedToUserId: 9
+    assignedToUserId: 9,
+    assignedToUserFullName: 'Justin Nrwl'
   },
   {
     id: 3,
@@ -44,7 +46,8 @@ const tickets: Ticket[] = [
     status: 'open',
     companyId: 2,
     submittedByUserId: 4,
-    assignedToUserId: null
+    assignedToUserId: null,
+    assignedToUserFullName: null
   },
   {
     id: 4,
@@ -52,7 +55,8 @@ const tickets: Ticket[] = [
     status: 'open',
     companyId: 3,
     submittedByUserId: 5,
-    assignedToUserId: null
+    assignedToUserId: null,
+    assignedToUserFullName: null
   },
   {
     id: 5,
@@ -60,7 +64,8 @@ const tickets: Ticket[] = [
     status: 'completed',
     companyId: 4,
     submittedByUserId: 6,
-    assignedToUserId: 8
+    assignedToUserId: 8,
+    assignedToUserFullName: 'Jeff Nrwl'
   },
   {
     id: 6,
@@ -68,14 +73,29 @@ const tickets: Ticket[] = [
     status: 'completed',
     companyId: 4,
     submittedByUserId: 7,
-    assignedToUserId: 8
+    assignedToUserId: 8,
+    assignedToUserFullName: 'Jeff Nrwl'
   }
 ];
 
 const comments: Comment[] = [
-  {id: 1, message: 'Booted into safe mode but not sure what to do from there', ticketId: 2, userId: 2},
-  {id: 2, message: 'Log in as an admin and manage users, enable root', ticketId: 5, userId: 8},
-  {id: 3, message: 'Choose rollback - last good known config', ticketId: 2, userId: 9}
+  {
+    id: 1,
+    message: 'Booted into safe mode but not sure what to do from there',
+    ticketId: 2,
+    userId: 2,
+    userFullName: 'Frank Smith'
+  },
+  {
+    id: 2, message: 'Log in as an admin and manage users, enable root', ticketId: 5,
+    userId: 8,
+    userFullName: 'Jeff Nrwl'
+  },
+  {
+    id: 3, message: 'Choose rollback - last good known config', ticketId: 2,
+    userId: 9,
+    userFullName: 'Justin Nrwl'
+  }
 ];
 
 const companies: Company[] = [
@@ -107,11 +127,11 @@ const companies: Company[] = [
 ];
 
 const eventLogs: EventLog[] = [
-  {id:1, message: 'viewed open tickets', userId: 1, resourceType: 'ticket', resourceId: null},
-  {id:2, message: 'created ticket', userId: 1, resourceType: 'ticket', resourceId: 1},
-  {id:3, message: 'viewed companies', userId: 9, resourceType: 'company', resourceId: null},
-  {id:4, message: 'viewed company details', userId: 9, resourceType: 'company', resourceId: 2},
-  {id:5, message: 'viewed ticket details', userId: 1, resourceType: 'ticket', resourceId: 1}
+  {id: 1, message: 'viewed open tickets', userId: 1, resourceType: 'ticket', resourceId: null},
+  {id: 2, message: 'created ticket', userId: 1, resourceType: 'ticket', resourceId: 1},
+  {id: 3, message: 'viewed companies', userId: 9, resourceType: 'company', resourceId: null},
+  {id: 4, message: 'viewed company details', userId: 9, resourceType: 'company', resourceId: 2},
+  {id: 5, message: 'viewed ticket details', userId: 1, resourceType: 'ticket', resourceId: 1}
 ];
 
 let lastTicketId = tickets.length;
@@ -255,7 +275,8 @@ app.post('/api/tickets', (req, res) => {
         companyId: t.companyId,
         status: 'open',
         submittedByUserId: currentUser.id,
-        assignedToUserId: null
+        assignedToUserId: null,
+        assignedToUserFullName: null
       };
       tickets.push(newTicket);
       res.send(newTicket);
@@ -275,7 +296,8 @@ app.post('/api/comments', (req, res) => {
         id: ++lastCommentId,
         message: t.message,
         ticketId: t.ticketId,
-        userId: currentUser.id
+        userId: currentUser.id,
+        userFullName: currentUser.fullName
       };
       comments.push(newComment);
       res.send(newComment);
@@ -345,6 +367,7 @@ interface Ticket {
   companyId: number;
   submittedByUserId: number;
   assignedToUserId: number;
+  assignedToUserFullName: string;
 }
 
 interface Comment {
@@ -352,6 +375,7 @@ interface Comment {
   message: string;
   ticketId: number;
   userId: number;
+  userFullName: string;
 }
 
 interface Company {
