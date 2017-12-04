@@ -16,28 +16,34 @@ export class TicketDetailsComponent implements OnInit {
   ticket$: Observable<Ticket>;
   comments$: Observable<Comment>;
   ticketMessage = new FormControl();
+  messageReadMode = true;
 
   constructor(private store: Store<any>, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.ticket$ = this.route.params.pipe(
       switchMap(params =>
-        this.store
-          .select(s => s.ticketsStateModel.tickets)
-          .pipe(map(tickets => tickets.find(ticket => ticket.id === +params['id'])))
+        this.store.select(s => s.ticketsStateModel.tickets).pipe(map(tickets => tickets[+params['id']]))
       )
     );
 
     this.route.params.subscribe(params => {
+      this.store.dispatch({ type: 'LOAD_TICKET', payload: +params['id'] });
       this.store.dispatch({ type: 'LOAD_TICKET_COMMENTS', payload: +params['id'] });
     });
 
     this.comments$ = this.store.select('commentsStateModel', 'comments');
   }
 
-  switchToEdit() {}
+  switchToEdit() {
+    this.messageReadMode = false;
+  }
 
-  cancelEdit() {}
+  cancelEdit() {
+    this.messageReadMode = true;
+  }
 
-  saveEdit() {}
+  saveEdit() {
+    this.messageReadMode = true;
+  }
 }

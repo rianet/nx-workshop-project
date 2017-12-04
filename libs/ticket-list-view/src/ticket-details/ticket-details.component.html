@@ -5,7 +5,7 @@
     </span>
   </header>
   <div class="ticket-message">
-    <ng-container *ngIf="true">
+    <ng-container *ngIf="messageReadMode; else editTicketMessage">
       <p>{{ticket.message}}</p>
       <a (click)="switchToEdit()">Edit</a>
     </ng-container>
