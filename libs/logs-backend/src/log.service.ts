@@ -14,7 +14,7 @@ export class LogService {
     }
   }
 
-  logs(): Observable<EventLog> {
-    return this.http.get<EventLog>(`${this._rootUrl}/api/eventlogs`);
+  logs(): Observable<EventLog[]> {
+    return this.http.get<EventLog[]>(`${this._rootUrl}/api/eventlogs`);
   }
 }

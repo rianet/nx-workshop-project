@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { TicketsStateModelState } from '@tuskdesk-suite/tickets-state';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
-import { Ticket } from '@tuskdesk-suite/data-models';
+import { Comment, Ticket } from '@tuskdesk-suite/data-models';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -15,9 +14,10 @@ import { FormControl } from '@angular/forms';
 })
 export class TicketDetailsComponent implements OnInit {
   ticket$: Observable<Ticket>;
+  comments$: Observable<Comment>;
   ticketMessage = new FormControl();
 
-  constructor(private store: Store<TicketsStateModelState>, private route: ActivatedRoute) {}
+  constructor(private store: Store<any>, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.ticket$ = this.route.params.pipe(
@@ -27,6 +27,12 @@ export class TicketDetailsComponent implements OnInit {
           .pipe(map(tickets => tickets.find(ticket => ticket.id === +params['id'])))
       )
     );
+
+    this.route.params.subscribe(params => {
+      this.store.dispatch({ type: 'LOAD_TICKET_COMMENTS', payload: +params['id'] });
+    });
+
+    this.comments$ = this.store.select('commentsStateModel', 'comments');
   }
 
   switchToEdit() {}

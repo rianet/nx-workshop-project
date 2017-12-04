@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { LogService } from '@tuskdesk-suite/logs-backend';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-logs-list',
@@ -9,11 +9,12 @@ import { LogService } from '@tuskdesk-suite/logs-backend';
 export class LogsListComponent implements OnInit, OnDestroy {
   logs;
   subscription;
-  constructor(private logsService: LogService) {}
+  constructor(private store: Store<any>) {}
 
   ngOnInit() {
-    this.subscription = this.logsService.logs().subscribe(logs => {
-      this.logs = logs;
+    this.store.dispatch({ type: 'LOAD_DATA' });
+    this.subscription = this.store.select('app', 'eventLogs').subscribe(eventLogs => {
+      this.logs = eventLogs;
     });
   }
 

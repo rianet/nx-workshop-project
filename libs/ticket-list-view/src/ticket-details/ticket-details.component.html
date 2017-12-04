@@ -40,16 +40,16 @@
       <span class="ticket-not-assigned">Not Assigned</span>
     </ng-template>
   </div>
-  <!--<footer class="ticket-comments">-->
-    <!--<div class="ticket-comment card">-->
-      <!--<span>{{comment.message}}</span>-->
-      <!--<span>by {{comment.userFullName}}</span>-->
-    <!--</div>-->
-    <!--<div class="ticket-comment-form">-->
-      <!--<label>-->
-        <!--<textarea name="newTicketComment" cols="30" rows="10"></textarea>-->
-      <!--</label>-->
-      <!--<button>Add Comment</button>-->
-    <!--</div>-->
-  <!--</footer>-->
+  <footer class="ticket-comments">
+    <div class="ticket-comment card" *ngFor="let comment of comments$ | async">
+      <span>{{comment.message}}</span>
+      <span>by {{comment.userFullName}}</span>
+    </div>
+    <div class="ticket-comment-form">
+      <label>
+        <textarea name="newTicketComment" cols="30" rows="10"></textarea>
+      </label>
+      <button>Add Comment</button>
+    </div>
+  </footer>
 </section>

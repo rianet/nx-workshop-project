@@ -8,6 +8,7 @@ import { RouterEffects } from './+state/router.effects';
 import { TicketDetailsComponent } from './ticket-details/ticket-details.component';
 import { SearchTicketsComponent } from './search-tickets/search-tickets.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CommentsStateModule } from '@tuskdesk-suite/comments-state';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { ReactiveFormsModule } from '@angular/forms';
       }
     ]),
     EffectsModule.forRoot([RouterEffects]),
-    StoreRouterConnectingModule
+    StoreRouterConnectingModule,
+    CommentsStateModule
   ],
   declarations: [TicketListComponent, TicketDetailsComponent, SearchTicketsComponent]
 })
