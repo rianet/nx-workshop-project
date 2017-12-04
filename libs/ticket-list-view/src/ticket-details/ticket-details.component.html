@@ -7,7 +7,7 @@
   <div class="ticket-message">
     <ng-container *ngIf="messageReadMode; else editTicketMessage">
       <p>{{ticket.message}}</p>
-      <a (click)="switchToEdit()">Edit</a>
+      <a (click)="switchToEdit(ticket.message)">Edit</a>
     </ng-container>
     <ng-template #editTicketMessage>
       <div class="ticket-message-form">
@@ -17,7 +17,7 @@
             [value]="ticket.message"></textarea>
         </label>
         <button (click)="cancelEdit()">Cancel</button>
-        <button (click)="saveEdit()">Save</button>
+        <button (click)="saveEdit(ticket.id)">Save</button>
       </div>
     </ng-template>
   </div>
@@ -47,9 +47,10 @@
     </div>
     <div class="ticket-comment-form">
       <label>
-        <textarea name="newTicketComment" cols="30" rows="10"></textarea>
+        <textarea name="newTicketComment" cols="30" rows="10"
+                  [formControl]="ticketComment"></textarea>
       </label>
-      <button>Add Comment</button>
+      <button (click)="addComment(ticket.id)">Add Comment</button>
     </div>
   </footer>
 </section>

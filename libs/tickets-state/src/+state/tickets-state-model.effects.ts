@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
 import { DataPersistence } from '@nrwl/nx';
 import { TicketsStateModelState } from './tickets-state-model.interfaces';
-import { LoadTicket, LoadTickets } from './tickets-state-model.actions';
+import { LoadTicket, LoadTickets, UpdateTicketMessage } from './tickets-state-model.actions';
 import { TicketService } from '@tuskdesk-suite/backend';
 import { map } from 'rxjs/operators';
 
@@ -27,6 +27,13 @@ export class TicketsStateModelEffects {
   });
 
   @Effect()
+  clearComments = this.actions.ofType('LOAD_TICKET').pipe(
+    map(() => {
+      return { type: 'TICKET_COMMENTS_LOADED', payload: [] };
+    })
+  );
+
+  @Effect()
   loadTicket = this.d.fetch('LOAD_TICKET', {
     run: (a: LoadTicket, state: TicketsStateModelState) => {
       return this.ticketService.ticketById(a.payload).pipe(
@@ -41,6 +48,23 @@ export class TicketsStateModelEffects {
 
     onError: (a: LoadTicket, error) => {
       console.error('Error', error);
+    }
+  });
+
+  @Effect()
+  updateTicketMessage = this.d.optimisticUpdate<UpdateTicketMessage>('UPDATE_TICKET_MESSAGE', {
+    run: (action: UpdateTicketMessage): any => {
+      return this.ticketService.updateTicketMessage(action.payload.id, action.payload.message).pipe(
+        map(() => {
+          return { type: 'TICKET_MESSAGE_UPDATED' };
+        })
+      );
+    },
+    undoAction: (action: UpdateTicketMessage) => {
+      return {
+        type: 'UNDO_UPDATE_TICKET_MESSAGE',
+        payload: { id: action.payload.id, message: action.payload.originalMessage }
+      };
     }
   });
 

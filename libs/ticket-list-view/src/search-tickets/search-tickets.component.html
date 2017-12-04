@@ -6,7 +6,7 @@
   <button [disabled]="searchButtonDisabled" #searchButton>Search</button>
 </div>
 <section class="ticket-search-results">
-  <a routerLink="/ticket/{{result.id}}" *ngFor="let result of searchResults">
+  <a routerLink="/ticket/{{result.id}}" *ngFor="let result of searchResults$ | async">
     <div class="card">
       <span>{{result.message}}</span>
       <span>Status: {{result.status}}</span>

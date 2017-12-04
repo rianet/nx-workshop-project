@@ -16,8 +16,7 @@ export class SearchTicketsComponent implements OnInit, OnDestroy {
   @ViewChild('searchButton', { read: ElementRef })
   searchButton;
   searchButtonDisabled = true;
-  searchResults: SearchResult[];
-  clickSubscription: Subscription;
+  searchResults$: Observable<SearchResult[]>;
   searchTextSubscription: Subscription;
 
   constructor(private ticketService: TicketService) {}
@@ -28,7 +27,6 @@ export class SearchTicketsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.clickSubscription.unsubscribe();
     this.searchTextSubscription.unsubscribe();
   }
 
@@ -39,18 +37,14 @@ export class SearchTicketsComponent implements OnInit, OnDestroy {
   }
 
   private _wireUpSearchButton() {
-    this.clickSubscription = Observable.fromEvent(this.searchButton.nativeElement, 'click')
-      .pipe(
-        switchMap(event => this.ticketService.searchTickets(this.searchText.value)),
-        map(tickets => {
-          return tickets.map(ticket => {
-            return { id: ticket.id, message: ticket.message, status: ticket.status };
-          });
-        })
-      )
-      .subscribe(searchResults => {
-        this.searchResults = searchResults;
-      });
+    this.searchResults$ = Observable.fromEvent(this.searchButton.nativeElement, 'click').pipe(
+      switchMap(event => this.ticketService.searchTickets(this.searchText.value)),
+      map(tickets => {
+        return tickets.map(ticket => {
+          return { id: ticket.id, message: ticket.message, status: ticket.status };
+        });
+      })
+    );
   }
 }
 

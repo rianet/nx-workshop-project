@@ -10,4 +10,18 @@ export interface TicketCommentsLoaded {
   payload: Comment[];
 }
 
-export type CommentsStateModelAction = LoadTicketComments | TicketCommentsLoaded;
+export interface AddTicketComment {
+  type: 'ADD_TICKET_COMMENT';
+  payload: { id: number; message: string };
+}
+
+export interface TicketCommentAdded {
+  type: 'TICKET_COMMENT_ADDED';
+  payload: Comment;
+}
+
+export type CommentsStateModelAction =
+  | LoadTicketComments
+  | TicketCommentsLoaded
+  | AddTicketComment
+  | TicketCommentAdded;

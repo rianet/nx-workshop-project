@@ -12,6 +12,12 @@ export function commentsStateModelReducer(
         comments: [...action.payload]
       };
     }
+    case 'TICKET_COMMENT_ADDED': {
+      return {
+        ...state,
+        comments: [...state.comments, action.payload]
+      };
+    }
     default: {
       return state;
     }

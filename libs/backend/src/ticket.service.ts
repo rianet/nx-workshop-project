@@ -29,4 +29,12 @@ export class TicketService {
   comments(id: number): Observable<Comment[]> {
     return this.http.get<Comment[]>(`${this._rootUrl}/api/tickets/${id}/comments`);
   }
+
+  updateTicketMessage(id: number, message: string): Observable<Ticket> {
+    return this.http.put<Ticket>(`${this._rootUrl}/api/tickets`, { id, message });
+  }
+
+  addComment(ticketId: number, message: string): Observable<Comment> {
+    return this.http.post<Comment>(`${this._rootUrl}/api/comments`, { ticketId, message });
+  }
 }
