@@ -40,7 +40,7 @@
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
-    "@angular/cli": "nrwl/fix-cli-build",
+    "@angular/cli": "1.5.5",
     "@angular/compiler-cli": "5.0.0",
     "@angular/language-service": "5.0.0",
     "@nrwl/schematics": "0.2.1",
