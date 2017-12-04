@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
 import { TicketService } from '@tuskdesk-suite/backend';
 import { Subscription } from 'rxjs/Subscription';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-tickets',
@@ -17,6 +18,7 @@ export class SearchTicketsComponent implements OnInit, OnDestroy {
   searchButtonDisabled = true;
   searchResults: SearchResult[];
   clickSubscription: Subscription;
+  searchTextSubscription: Subscription;
 
   constructor(private ticketService: TicketService) {}
 
@@ -27,12 +29,28 @@ export class SearchTicketsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.clickSubscription.unsubscribe();
+    this.searchTextSubscription.unsubscribe();
   }
 
-  private _wireUpSearchButtonEnable() {}
+  private _wireUpSearchButtonEnable() {
+    this.searchTextSubscription = this.searchText.valueChanges.subscribe(value => {
+      this.searchButtonDisabled = value.length < 2;
+    });
+  }
 
   private _wireUpSearchButton() {
-    this.clickSubscription = Observable.fromEvent(this.searchButton.nativeElement, 'click').subscribe(e => {});
+    this.clickSubscription = Observable.fromEvent(this.searchButton.nativeElement, 'click')
+      .pipe(
+        switchMap(event => this.ticketService.searchTickets(this.searchText.value)),
+        map(tickets => {
+          return tickets.map(ticket => {
+            return { id: ticket.id, message: ticket.message, status: ticket.status };
+          });
+        })
+      )
+      .subscribe(searchResults => {
+        this.searchResults = searchResults;
+      });
   }
 }
 
