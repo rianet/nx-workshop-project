@@ -3,6 +3,7 @@ import { TicketsStateModelState } from '@tuskdesk-suite/tickets-state';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Ticket } from '@tuskdesk-suite/data-models';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ticket-list',
@@ -16,6 +17,8 @@ export class TicketListComponent implements OnInit {
   constructor(private store: Store<TicketsStateModelState>) {}
 
   ngOnInit() {
-    this.tickets$ = this.store.select(s => s.ticketsStateModel.tickets);
+    this.tickets$ = this.store
+      .select(s => s.ticketsStateModel)
+      .pipe(map(model => model.ticketsOrder.map(id => model.tickets[id])));
   }
 }

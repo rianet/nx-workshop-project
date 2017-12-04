@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="1a349f51d613918336fb7205bfec06bd41dc233c" datatype="html">
+        <source>TuskDesk Logo</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/account-admin/src/app/app.component.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <note priority="1" from="description">Alt text for the logo</note>
+        <note priority="1" from="meaning">app logo</note>
+      </trans-unit>
+      <trans-unit id="b5c750cb57735d4b2d464c16cf7a9518c203b4ae" datatype="html">
+        <source>TuskDesk Account Admin</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/account-admin/src/app/app.component.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <note priority="1" from="description">Name of the app for the header</note>
+        <note priority="1" from="meaning">app name</note>
+      </trans-unit>
+      <trans-unit id="16a36574ea87c2263a069d392e6ae9c7fc312628" datatype="html">
+        <source>Accounts</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">apps/account-admin/src/app/app.component.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <note priority="1" from="description">Account link text for header</note>
+        <note priority="1" from="meaning">account link</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

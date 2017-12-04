@@ -5,9 +5,9 @@
     </span>
   </header>
   <div class="ticket-message">
-    <ng-container *ngIf="true">
+    <ng-container *ngIf="messageReadMode; else editTicketMessage">
       <p>{{ticket.message}}</p>
-      <a (click)="switchToEdit()">Edit</a>
+      <a (click)="switchToEdit(ticket.message)">Edit</a>
     </ng-container>
     <ng-template #editTicketMessage>
       <div class="ticket-message-form">
@@ -17,7 +17,7 @@
             [value]="ticket.message"></textarea>
         </label>
         <button (click)="cancelEdit()">Cancel</button>
-        <button (click)="saveEdit()">Save</button>
+        <button (click)="saveEdit(ticket.id)">Save</button>
       </div>
     </ng-template>
   </div>
@@ -40,16 +40,17 @@
       <span class="ticket-not-assigned">Not Assigned</span>
     </ng-template>
   </div>
-  <!--<footer class="ticket-comments">-->
-    <!--<div class="ticket-comment card">-->
-      <!--<span>{{comment.message}}</span>-->
-      <!--<span>by {{comment.userFullName}}</span>-->
-    <!--</div>-->
-    <!--<div class="ticket-comment-form">-->
-      <!--<label>-->
-        <!--<textarea name="newTicketComment" cols="30" rows="10"></textarea>-->
-      <!--</label>-->
-      <!--<button>Add Comment</button>-->
-    <!--</div>-->
-  <!--</footer>-->
+  <footer class="ticket-comments">
+    <div class="ticket-comment card" *ngFor="let comment of comments$ | async">
+      <span>{{comment.message}}</span>
+      <span>by {{comment.userFullName}}</span>
+    </div>
+    <div class="ticket-comment-form">
+      <label>
+        <textarea name="newTicketComment" cols="30" rows="10"
+                  [formControl]="ticketComment"></textarea>
+      </label>
+      <button (click)="addComment(ticket.id)">Add Comment</button>
+    </div>
+  </footer>
 </section>
